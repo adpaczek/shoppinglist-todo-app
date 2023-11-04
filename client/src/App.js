@@ -1,11 +1,15 @@
-import ListHeader from './components/ListHeader'
-import ListItem from './components/ListItem'
+import ListHeader from './components/ListHeader.js'
+import ListItem from './components/ListItem.js'
+import Auth from './components/Auth.js'
 import {useEffect, useState} from 'react'
+import {useCookies} from 'react-cookie'
 
 const App = () => {
-
-  const userEmail = 'ania@test.com'
+  const [cookies, setCookie, removeCookie] = useCookies(null)
+  const authToken = cookies.AuthToken
+  const userEmail = cookies.Email
   const [lists, setLists] = useState(null)
+
 
   const getData = async () => {
     try {
@@ -20,15 +24,23 @@ const App = () => {
   //Sort by date
   const sortedLists = lists?.sort((a,b) => new Date(a.date) - new Date(b.date))
 
-  useEffect(() => getData, [])
+  useEffect(() => {
+    if (authToken) {
+      getData()
+    }
+  }, [])
 
   console.log(lists)
 
 
   return (
     <div className = "app">
-      <ListHeader listName = {'📜 Shopping list'} />
-      {sortedLists?.map((list) => <ListItem key={list.id} list={list} />)}
+      {!authToken && <Auth/>}
+      {authToken && 
+        <>
+        <ListHeader listName = {'📜 Shopping list'} getData={getData} />
+        {sortedLists?.map((list) => <ListItem key={list.id} list={list} getData={getData}/>)}
+        </>}
     </div>
   );
 }
