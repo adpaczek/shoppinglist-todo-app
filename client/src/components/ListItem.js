@@ -1,12 +1,14 @@
 import { useState} from 'react'
 import TickIcon from './TickIcon'
-import ProgressBar from './ProgressBar'
 import Modal from './Modal.js'
+import ProductItem from './ProductItem.js'
+import ItemModal from './ItemModal.js'
 
 
-const ListItem = ({ list, getData }) => {
+const ListItem = ({ list, getData, items }) => {
 
   const [showModal, setShowModal] = useState(false)
+  const [showItemModal, setShowItemModal] = useState(false)
 
   const deleteItem = async() => {
     try {
@@ -23,20 +25,31 @@ const ListItem = ({ list, getData }) => {
 
     return (
       <li className="list-item">
-        
-        <div className="info-container">
-          <TickIcon/>
-          <p className="task-title">{list.title}</p>
-          <ProgressBar progress={list.progress}/>
-        </div>
+        <div className="info-button-container">
+            <div className="info-container">
+              <TickIcon/>
+              <p style={{ fontWeight: 'bold', marginRight: '20px' }}>{list.title}</p>
+              <p>{list.date}</p>
+            </div>
 
-        <div className="button-container">
-          <button className="edit" onClick={() => setShowModal(true)}>EDIT</button>
-          <button className="delete" onClick={deleteItem}>DELETE</button>
-        </div>
-        {showModal && <Modal mode={'edit'} setShowModal={setShowModal} getData={getData} list={list}/>}
-
+            <div className="button-container">
+            <button className="add" onClick={() => setShowItemModal(true)}>ADD ITEM</button>
+              <button className="edit" onClick={() => setShowModal(true)}>EDIT</button>
+              <button className="delete" onClick={deleteItem}>DELETE</button>
+            </div>
+            {showModal && <Modal mode={'edit'} setShowModal={setShowModal} getData={getData} list={list}/>}
+            {showItemModal && <ItemModal mode={'edit'} setShowItemModal={setShowItemModal} getData={getData} list={list} item={items}/>}
+          </div>
+          
+          <div className="product-container">
+            {items && items.map((item) => (
+            <ProductItem key={item.id} item={item} getData={getData} />
+          ))}
+      </div>
       </li>
+    
+    
+    
     );
   }
   

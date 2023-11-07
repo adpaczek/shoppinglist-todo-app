@@ -12,3 +12,13 @@ CREATE TABLE users (
     email VARCHAR(255) PRIMARY KEY,
     hashed_password VARCHAR(255)
 );
+
+CREATE TABLE items (
+    id VARCHAR(255) PRIMARY KEY,
+    list_id VARCHAR(255),
+    name VARCHAR(255),
+    quantity INT,
+    unit VARCHAR(50),
+    completed BOOLEAN,
+    reference_image BYTEA
+);

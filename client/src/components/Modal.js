@@ -8,8 +8,7 @@ const Modal = ( { mode, setShowModal, getData, list}) => {
   const [data, setData] = useState({
     user_email: editMode ? list.user_email : cookies.Email,
     title: editMode ? list.title : null,
-    progress: editMode ? list.progress : 50,
-    date: editMode ? list.date : new Date()
+    date: editMode ? list.date : null,
   })
 
   const postData = async (e) => {
@@ -80,15 +79,14 @@ const Modal = ( { mode, setShowModal, getData, list}) => {
               value={data.title}
               onChange={handleChange}/>
             <br/>
-            <label for="range">Drag your current progress</label>
-            <input
+            <input 
               required
-              type="range"
-              min="0"
-              max="100"
-              name="progress"
-              value={data.progress}
+              maxLength={300}
+              placeholder="Write planning date of purchase"
+              name="date"
+              value={data.date}
               onChange={handleChange}/>
+            
             <br/>
             <input className={mode} type="submit" onClick={editMode ? editData : postData} />
           </form>

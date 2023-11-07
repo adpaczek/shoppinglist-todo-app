@@ -23,15 +23,42 @@ app.get('/lists/:userEmail', async (req, res) => {
     }
 })
 
+// get all items
+app.get('/lists/:listId/items', async (req, res) => {
+    const { listId } = req.params;
+  
+    try {
+      const items = await pool.query('SELECT * FROM items WHERE list_id = $1', [listId]);
+      res.json(items.rows);
+    }catch (err) {
+        console.error(err)
+    }
+})
+
 // create a new list 
 app.post('/lists/', async(req, res) => {
-    const { user_email, title, progress, date } = req.body
-    console.log(user_email, title, progress, date )
+    const { user_email, title, date } = req.body
+    console.log(user_email, title, date )
     const id = uuidv4()
     try {
-        const newList = await pool.query(`INSERT INTO lists (id, user_email, title, progress, date) VALUES($1, $2, $3, $4, $5)`, 
-            [id, user_email, title, progress, date])
+        const newList = await pool.query(`INSERT INTO lists (id, user_email, title, date) VALUES($1, $2, $3, $4)`, 
+            [id, user_email, title, date])
         res.json(newList)
+    } catch (err) {
+        console.error(err)
+    }
+})
+
+// create a new item
+app.post('/lists/:listId/items', async(req, res) => {
+    const { listId } = req.params;
+    const { name, quantity, unit, completed, reference_image } = req.body;
+    console.log(user_email, title, date )
+    const id = uuidv4()
+    try {
+        const newItem = await pool.query(`INSERT INTO items (id, list_id, name, quantity, unit, completed, reference_image) VALUES($1, $2, $3, $4, $5, $6, $7)`, 
+            [id, listId, name, quantity, unit, completed, reference_image])
+        res.json(newItem)
     } catch (err) {
         console.error(err)
     }
@@ -40,15 +67,29 @@ app.post('/lists/', async(req, res) => {
 // edit a list
 app.put('/lists/:id', async (req, res) => {
     const { id } = req.params
-    const {user_email, title, progress, date} = req.body
+    const {user_email, title, date} = req.body
     try {
-        const editList = await pool.query('UPDATE lists SET user_email = $1, title = $2, progress = $3, date = $4 WHERE id = $5;', 
-        [user_email, title, progress, date, id])
+        const editList = await pool.query('UPDATE lists SET user_email = $1, title = $2,  date = $3 WHERE id = $4;', 
+        [user_email, title, date, id])
         res.json(editList)
     } catch (err) {
         console.error(err)
     }
 })
+
+// edit item
+app.put('/lists/:listId/items/:itemId', async (req, res) => {
+    const { listId, itemId } = req.params;
+    const { name, quantity, unit, completed, reference_image } = req.body;
+    try {
+        const editItem = await pool.query('UPDATE items SET name = $1, quantity = $2, unit = $3, completed = $4, reference_image = $5 WHERE id = $6;', 
+        [name, quantity, unit, completed, reference_image, itemId])
+        res.json(editItem)
+    } catch (err) {
+        console.error(err)
+    }
+})
+
 
 // delete a list
 app.delete('/lists/:id', async (req, res) => {
@@ -56,6 +97,17 @@ app.delete('/lists/:id', async (req, res) => {
     try {
         const deleteList = await pool.query('DELETE FROM lists WHERE id = $1;', [id])
         res.json(deleteList)
+    } catch (err) {
+        console.error(err)
+    }
+})
+
+// delete a item
+app.delete('/lists/:listId/items/:itemId', async (req, res) => {
+    const { listId, itemId } = req.params;
+    try {
+        const deleteItem = await pool.query('DELETE FROM items WHERE id = $1', [itemId])
+        res.json(deleteItem)
     } catch (err) {
         console.error(err)
     }

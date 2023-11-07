@@ -16,9 +16,26 @@ body {
     margin-top: 50px;
 }
 
-.button-container, .info-container {
+.button-container {
     display: flex;
     align-items: center;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; 
+}
+
+.info-button-container {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-container {
+    padding: 10px;
 }
 
 .button-container button {
@@ -120,6 +137,7 @@ input {
     box-shadow: rgba(0,0,0, 0.08) 0 0 0 1px;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .tick {
@@ -228,5 +246,29 @@ input {
 
 .inner-bar {
     height: 14px;
+}
+/* Product item */
+
+.product-item {
+    width: 95%;
+    margin: 10px 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0,0,0, 0.08) 0 0 0 1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-container-item {
+    display: flex;
+    font-size: 12px;
+}
+
+.button-container-item button {
+    margin: 0 3px;
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 10px;
+    background-color: transparent;
 }
 
