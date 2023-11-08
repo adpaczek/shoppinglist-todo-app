@@ -1,5 +1,5 @@
 import { useState} from 'react'
-import ItemModal from './ItemModal.js'
+import ItemModal from './ModalProduct.js'
 
 
 const ProductItem = ({ list, item, getData }) => {

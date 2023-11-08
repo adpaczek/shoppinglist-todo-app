@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import ItemModal from './ItemModal.js';
+import ModalProduct from './ModalProduct.js';
 
-describe('ItemModal Component', () => {
+describe('ModalProduct Component', () => {
     it('should render the component with default state', () => {
-        const { getByText } = render(<ItemModal />);
+        const { getByText } = render(<ModalProduct />);
 
         expect(getByText('Please log in:')).toBeInTheDocument();
     });

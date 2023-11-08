@@ -96,6 +96,22 @@ body {
     color: rgb(255, 255, 255);
 }
 
+.add {
+    border: 1.5px solid rgb(33, 36, 49);
+    color: rgb(33, 36, 49);
+    text-transform: uppercase;
+    background-color: transparent;
+}
+
+.add:hover {
+    background-color: rgb(66, 72, 100);
+}
+
+.add:active {
+    background-color: rgb(33, 36, 49);
+    color: rgb(255, 255, 255);
+}
+
 .signout {
     border: 1.5px solid rgb(175, 94, 94);
     color: rgb(175, 94, 94);
