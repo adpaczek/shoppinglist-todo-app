@@ -1,17 +1,36 @@
 import { useState } from 'react'
-import {useCookies} from 'react-cookie'
 
-const ModalProduct = ( {mode, setShowModal}) => {
+const ModalProduct = ( {mode, setShowModal, getData, item, list}) => {
 
   const editMode = mode === 'edit-item' ? true : false
 
   const [data, setData] = useState({
-    name: "",
-    quantity: 1,
-    unit: "",
-    completed: false,
-    reference_image: null
+    list_id: editMode ? list.list_id : null,
+    name: editMode ? item.name : null,
+    quantity: editMode ? item.quantity : null,
+    unit: editMode ? item.unit : "Szt",
+    completed: editMode ? item.completed: false,
+    reference_image: editMode ? item.reference_image: null
   })
+
+  const postData = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await fetch(`http://localhost:8000/lists/${list.id}/items`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      })
+      if (response.status === 200) {
+        console.log(response)
+        setShowModal(false)
+        getData()
+      }
+
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const handleChange = (e) => {
     const {name, value} = e.target
@@ -50,6 +69,7 @@ const ModalProduct = ( {mode, setShowModal}) => {
               value={data.quantity}
               onChange={handleChange}/>
             <br/>
+            <label>Select unit: </label>
             <select 
               id="unit" 
               name="unit" 
@@ -68,7 +88,7 @@ const ModalProduct = ( {mode, setShowModal}) => {
               value={data.reference_image}
               onChange={handleChange}>
             </input>
-            <input className={mode} type="submit"/>
+            <input className={mode} type="submit" onClick={editMode ? '': postData}/>
           </form>
         </div>
       </div>

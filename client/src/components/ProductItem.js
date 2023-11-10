@@ -1,39 +1,41 @@
 import { useState} from 'react'
-import ItemModal from './ModalProduct.js'
+import ModalProduct from './ModalProduct.js'
 
 
 const ProductItem = ({ list, item, getData }) => {
 
-  const [showItemModal, setShowItemModal] = useState(false)
+  const [showModal2, setShowModal2] = useState(false)
+  const [isChecked, setIsChecked] = useState(item.completed);
 
-  const deleteItem = async() => {
+  const toggleCompletion = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/lists/${list.id}`, {
-        method: 'DELETE'
-      })
+      const response = await fetch(`http://localhost:8000/lists/${list.id}/items/${item.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed: !isChecked }), // Przełącz stan zaznaczenia
+      });
       if (response.status === 200) {
-        getData()
+        getData();
+        setIsChecked(!isChecked); // Zaktualizuj lokalny stan
       }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 
     return (
-      <li className="product-item">
+      <li className={`product-item ${isChecked ? 'completed' : ''}`}>
         
         <div className="info-container-item">
-        <p>{item.name}</p>
-        <p>{item.quantity}</p>
-        <p>{item.unit}</p>
+          <p style={{ fontWeight: 'bold', marginRight: '20px' }}>{item.name}</p>
+          <p style={{ marginRight: '2px' }}>{item.quantity}</p>
+          <p>{item.unit}</p>
         </div>
 
         <div className="button-container-item">
-
-          <button className="edit" onClick={() => setShowItemModal(true)}>EDIT</button>
-          <button className="delete" onClick={deleteItem}>DELETE</button>
+        <button className="toggle" onClick={toggleCompletion}>CHECK</button>
         </div>
-        {showItemModal && <ItemModal mode={'edit'} setShowItemModal={setShowItemModal} getData={getData} list={list}/>}
+        {showModal2 && <ModalProduct mode={'edit'} setShowModal={setShowModal2} getData={getData} item={item} list={list}/>}
 
       </li>
     );

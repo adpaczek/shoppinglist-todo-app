@@ -1,16 +1,37 @@
-import { useState} from 'react'
+import {useEffect, useState} from 'react'
 import TickIcon from './TickIcon'
 import Modal from './Modal.js'
 import ProductItem from './ProductItem.js'
 import ModalProduct from './ModalProduct.js'
+import {useCookies} from 'react-cookie'
 
 
-const ListItem = ({ list, getData}) => {
+const ListItem = ({ list, item, getData}) => {
 
+  const [cookies] = useCookies(null)
   const [showModal, setShowModal] = useState(false)
   const [showModal2, setShowModal2] = useState(false)
+  const [products, setProducts] = useState(null)
+  const authToken = cookies.AuthToken
 
 
+  const getDataProduct = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/lists/${list.id}/items`)
+      const json = await response.json()
+      setProducts(json)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    if (authToken) {
+      getDataProduct()
+    }
+  }, [])
+
+  console.log(products)
 
   const deleteItem = async() => {
     try {
@@ -40,14 +61,14 @@ const ListItem = ({ list, getData}) => {
               <button className="delete" onClick={deleteItem}>DELETE</button>
             </div>
             {showModal && <Modal mode={'edit'} setShowModal={setShowModal} getData={getData} list={list}/>}
-            {showModal2 && <ModalProduct mode={'add'} setShowModal={setShowModal2} />}
+            {showModal2 && <ModalProduct mode={'add'} setShowModal={setShowModal2} getData={getDataProduct} item={item} list={list}/>}
           </div>
-          
-          <div className="product-container">
             
+          <div className="product-container">
+            <p>{products?.map((product) => <ProductItem key={product.id} item={product} list={list} getData={getDataProduct}/>)}</p>
           </div>
       </li>
-    
+  
     
     
     );

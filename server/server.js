@@ -50,14 +50,14 @@ app.post('/lists/', async(req, res) => {
 })
 
 // create a new item
-app.post('/lists/:listId/items', async(req, res) => {
-    const { listId } = req.params;
-    const { name, quantity, unit, completed, reference_image } = req.body;
-    console.log(user_email, title, date )
+app.post('/lists/:list_id/items', async(req, res) => {
+    const { list_id } = req.params
+    const { name, quantity, unit, completed, reference_image } = req.body
+    console.log(list_id, name, quantity, unit, completed, reference_image)
     const id = uuidv4()
     try {
         const newItem = await pool.query(`INSERT INTO items (id, list_id, name, quantity, unit, completed, reference_image) VALUES($1, $2, $3, $4, $5, $6, $7)`, 
-            [id, listId, name, quantity, unit, completed, reference_image])
+            [id, list_id, name, quantity, unit, completed, reference_image])
         res.json(newItem)
     } catch (err) {
         console.error(err)
@@ -80,11 +80,9 @@ app.put('/lists/:id', async (req, res) => {
 // edit item
 app.put('/lists/:listId/items/:itemId', async (req, res) => {
     const { listId, itemId } = req.params;
-    const { name, quantity, unit, completed, reference_image } = req.body;
     try {
-        const editItem = await pool.query('UPDATE items SET name = $1, quantity = $2, unit = $3, completed = $4, reference_image = $5 WHERE id = $6;', 
-        [name, quantity, unit, completed, reference_image, itemId])
-        res.json(editItem)
+        const toggleCompletion = await pool.query('UPDATE items SET completed = NOT completed WHERE id = $1 AND list_id = $2;', [itemId, listId])
+        res.json(toggleCompletion)
     } catch (err) {
         console.error(err)
     }
@@ -97,17 +95,6 @@ app.delete('/lists/:id', async (req, res) => {
     try {
         const deleteList = await pool.query('DELETE FROM lists WHERE id = $1;', [id])
         res.json(deleteList)
-    } catch (err) {
-        console.error(err)
-    }
-})
-
-// delete a item
-app.delete('/lists/:listId/items/:itemId', async (req, res) => {
-    const { listId, itemId } = req.params;
-    try {
-        const deleteItem = await pool.query('DELETE FROM items WHERE id = $1', [itemId])
-        res.json(deleteItem)
     } catch (err) {
         console.error(err)
     }

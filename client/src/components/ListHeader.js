@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Modal from './Modal.js'
 import { useCookies } from 'react-cookie'
-import ItemModal from './ModalProduct.js'
+
 
 
 const ListHeader = ({ listName, getData }) => {
