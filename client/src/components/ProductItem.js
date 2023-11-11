@@ -23,17 +23,31 @@ const ProductItem = ({ list, item, getData }) => {
     }
   }
 
+  const deleteProduct = async() => {
+    try {
+      const response = await fetch(`http://localhost:8000/lists/${list.id}/items/${item.id}`, {
+        method: 'DELETE'
+      })
+      if (response.status === 200) {
+        getData()
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
     return (
       <li className={`product-item ${isChecked ? 'completed' : ''}`}>
         
         <div className="info-container-item">
-          <p style={{ fontWeight: 'bold', marginRight: '20px' }}>{item.name}</p>
+          <p style={{ fontWeight: 'bold', marginRight: '12px' }}>{item.name}</p>
           <p style={{ marginRight: '2px' }}>{item.quantity}</p>
           <p>{item.unit}</p>
         </div>
 
         <div className="button-container-item">
-        <button className="toggle" onClick={toggleCompletion}>CHECK</button>
+          <button className="toggle" onClick={toggleCompletion}>CHECK</button>
+          <button className="delete" onClick={deleteProduct}>DELETE</button>
         </div>
         {showModal2 && <ModalProduct mode={'edit'} setShowModal={setShowModal2} getData={getData} item={item} list={list}/>}
 

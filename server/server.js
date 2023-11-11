@@ -77,7 +77,7 @@ app.put('/lists/:id', async (req, res) => {
     }
 })
 
-// edit item
+// edit item - completed
 app.put('/lists/:listId/items/:itemId', async (req, res) => {
     const { listId, itemId } = req.params;
     try {
@@ -94,7 +94,21 @@ app.delete('/lists/:id', async (req, res) => {
     const { id } = req.params
     try {
         const deleteList = await pool.query('DELETE FROM lists WHERE id = $1;', [id])
+        const deleteListProduct = await pool.query('DELETE FROM items WHERE list_id = $1;', [id])
         res.json(deleteList)
+        res.json(deleteListProduct)
+    } catch (err) {
+        console.error(err)
+    }
+})
+
+//delete a product
+
+app.delete('/lists/:listId/items/:itemId', async (req, res) => {
+    const { listId, itemId } = req.params;
+    try {
+        const deleteProduct = await pool.query('DELETE FROM items WHERE id = $1 AND list_id = $2;', [itemId, listId])
+        res.json(deleteProduct)
     } catch (err) {
         console.error(err)
     }

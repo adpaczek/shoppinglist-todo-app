@@ -35,7 +35,7 @@ body {
 }
 
 .product-container {
-    padding: 10px;
+    padding: 8px;
 }
 
 .button-container button {
@@ -112,6 +112,22 @@ body {
     color: rgb(255, 255, 255);
 }
 
+.toggle {
+    border: 1.5px solid rgb(165, 165, 167);
+    color: rgb(165, 165, 167);
+    text-transform: uppercase;
+    background-color: transparent;
+}
+
+.toggle:hover {
+    background-color: rgb(196, 196, 200);
+}
+
+.toggle:active {
+    background-color: rgb(165, 165, 167);
+    color: rgb(255, 255, 255);
+}
+
 .signout {
     border: 1.5px solid rgb(175, 94, 94);
     color: rgb(175, 94, 94);
@@ -182,10 +198,9 @@ input {
 }
 
 .modal select {
-    appearance: none; /* Resetuj domyślny wygląd systemowego selecta */
-    outline: none; /* Usuń obramowanie wokół selecta przy aktywacji */
-    cursor: pointer; /* Kursor wskazujący, aby pokazać, że to element interaktywny */
-    margin: 11px 0;
+    appearance: none; 
+    outline: none; 
+    cursor: pointer; 
     padding: 12px 16px;
     border-radius: 12px;
     border: 1.5px solid rgb(230, 232, 236);
@@ -293,8 +308,9 @@ input {
 
 .button-container-item button {
     padding: 8px;
-    font-size: 11px;
-    border-radius: 10px;
+    font-size: 10px;
+    margin-right: 5px;
+    border-radius: 12px;
     background-color: transparent;
 
 }

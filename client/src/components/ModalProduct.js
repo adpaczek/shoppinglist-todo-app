@@ -60,7 +60,19 @@ const ModalProduct = ( {mode, setShowModal, getData, item, list}) => {
               name="name"
               value={data.name}
               onChange={handleChange}/>
-            <br/>
+            <label>Or select from list:</label>
+            <select
+              name="name"
+              value={data.name}
+              onChange={handleChange}
+            >
+              <option value="">Select an option</option>
+              <option value="Chleb">Chleb</option>
+              <option value="Mleko">Mleko</option>
+              <option value="Woda">Woda</option>
+              <option value="Ser">Ser</option>
+            </select>
+            <label>Enter quantity:</label>
             <input
               required
               maxLength={30}
@@ -68,18 +80,17 @@ const ModalProduct = ( {mode, setShowModal, getData, item, list}) => {
               name="quantity"
               value={data.quantity}
               onChange={handleChange}/>
-            <br/>
-            <label>Select unit: </label>
+            <label>Select unit:</label>
             <select 
               id="unit" 
               name="unit" 
               required 
+              value={data.unit}
               onChange={handleChange}>
-              <option value={data.unit}>Szt</option>
-              <option value={data.unit}>Kg</option>
-              <option value={data.unit}>L</option>
+              <option value="Szt">Szt</option>
+              <option value="Kg">Kg</option>
+              <option value="L">L</option>
             </select>
-            <br/>
             <label>Upload reference image if you want:</label>
             <input 
               type="file" 

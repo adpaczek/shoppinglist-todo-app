@@ -31,8 +31,6 @@ const ListItem = ({ list, item, getData}) => {
     }
   }, [])
 
-  console.log(products)
-
   const deleteItem = async() => {
     try {
       const response = await fetch(`http://localhost:8000/lists/${list.id}`, {
