@@ -1,11 +1,17 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import ListItem from './ListItem.js';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import ListItem from './ListItem';
 
 describe('ListItem Component', () => {
-    it('should render the component with default state', () => {
-        const { getByText } = render(<ListItem />);
 
-        expect(getByText('Please log in:')).toBeInTheDocument();
+    it('should render ListItem with item information', () => {
+        const list = { id: 1, title: 'Sample List', date: '2023-12-01' };
+        render(<ListItem list={list} item={null} getData={() => {}} />);
+
+        // Sprawdź, czy komponent zawiera informacje o liście (tytuł i datę)
+        expect(screen.getByText('Sample List')).toBeInTheDocument();
+        expect(screen.getByText('2023-12-01')).toBeInTheDocument();
     });
+
+
 })

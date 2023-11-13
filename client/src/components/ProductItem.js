@@ -47,7 +47,7 @@ const ProductItem = ({ list, item, getData }) => {
 
         <div className="button-container-item">
           <button className="toggle" onClick={toggleCompletion}>CHECK</button>
-          <button className="delete" onClick={deleteProduct}>DELETE</button>
+          <button className="delete" onClick={deleteProduct}>DELETE ITEM</button>
         </div>
         {showModal2 && <ModalProduct mode={'edit'} setShowModal={setShowModal2} getData={getData} item={item} list={list}/>}
 

@@ -91,14 +91,7 @@ const ModalProduct = ( {mode, setShowModal, getData, item, list}) => {
               <option value="Kg">Kg</option>
               <option value="L">L</option>
             </select>
-            <label>Upload reference image if you want:</label>
-            <input 
-              type="file" 
-              id="reference_image" 
-              name="reference_image"
-              value={data.reference_image}
-              onChange={handleChange}>
-            </input>
+            
             <input className={mode} type="submit" onClick={editMode ? '': postData}/>
           </form>
         </div>
